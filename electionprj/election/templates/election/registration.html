@@ -5,7 +5,7 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'css/registration.css' %}">
 	</head>
 	<body>
-		<h3>Registration</h3>
+		<h3>Voter Registration</h3>
 		<div>
 			<button id="btnStep1" class="active" onclick="showStep(1)">Step 1</button>
 			<button id="btnStep2" onclick="showStep(2)">Step 2</button>
@@ -31,7 +31,13 @@
 
 			<!-- Step 2 Account Creation -->
 			<div id="contentStep2" style="display: none;">
-				<h2>Create an Account</h2>
+				<h2>Register New Voters Account</h2>
+				<form method="post">
+					{% csrf_token %}
+					{{ form.as_p }}
+					<button type="submit">Register</button>
+				</form>
+
 				<button id="previousButton" onclick="showStep(1)">Previous</button>
 			</div>
 		</div>
