@@ -1,3 +1,43 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+header {
+	width: 80%;
+	margin: 0 auto;
+	border-bottom: 1px solid grey;
+}
+
+.top-header ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	justify-content: space-around;
+}
+
+.top-header ul li {
+	position: relative;
+	margin-right: 20px;
+	cursor: pointer;
+}
+
+.top-header > ul > li:after {
+	content: '▼';
+	font-size: 0.8em;
+}
+
+.top-header ul ul {
+	position: absolute;
+	display: none;
+	cursor: pointer;
+}
+
+.top-header ul li:hover ul {
+	display: block;
+}
+
 .left-image {
 	float: left;
 	margin-right: 10px;
@@ -20,4 +60,47 @@
 	font-size: 1rem;
 	transition: background-color 0.3s;
 	border: none;
+}
+
+.voter-guide {
+	text-align: center;
+}
+
+.voter-guide img {
+	margin-right: 20px;
+}
+
+.voter-guide p {
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #022969;
+}
+
+.voter-guide h3 {
+	font-size: 1em;
+}
+
+.voter-guide button {
+	background-color: red;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	cursor: pointer;
+	display: block;
+	margin: 10px auto;
+	border-radius: 5px;
+}
+
+.voter-guide button:hover {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+}
+
+footer {
+	width: 100%;
+	height: 90px;
+	/* position: fixed; */
+	bottom: 0;
+	left: 0;
+	margin-top: 10px;
+	background-color: #636963;
 }
