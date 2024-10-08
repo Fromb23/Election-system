@@ -3,15 +3,43 @@ from .models import Voter
 from .models import County, Constituency, Ward, PollingStation
 
 class VoterForm(forms.Form):
-    class Meta:
-        model = Voter
-        fields = [
-                'first_name', 'last_name', 'email', 'password', 'national_id',
-                'phone_number', 'date_of_birth'
-                ]
-        widgets = {
-                'password': forms.PasswordInput(),
-                }
+    # class Meta:
+        #model = Voter
+        # fields = [
+        #        'first_name', 'last_name', 'email', 'password', 'national_id',
+        #       'phone_number', 'date_of_birth'
+        #        ]
+        # widgets = {
+        #        'password': forms.PasswordInput(),
+        #       }
+    first_name = forms.CharField(max_length=100)
+    last_name = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput())
+    national_id = forms.CharField(max_length=100)
+    phone_number = forms.CharField(max_length=15)
+    date_of_birth = forms.DateField()
+
+    def save_voter(self, commit=True):
+        email = self.cleaned_data['email']
+        if Voter.objects.filter(email=email).exists():
+            print("A similar user already exists")
+        else:
+            voter = Voter(
+                    first_name = self.cleaned_data['first_name'],
+                    last_name = self.cleaned_data['last_name'],
+                    email = self.cleaned_data['email'],
+                    password = self.cleaned_data['password'],
+                    national_id = self.cleaned_data['national_id'],
+                    phone_number = self.cleaned_data['phone_number'],
+                    date_of_birth = self.cleaned_data['date_of_birth']
+                    # voted = self.cleaned_data['voted']
+                    )
+    
+            if commit:
+                voter.save()
+    
+        return voter
     
 class FilterForm(forms.Form):
     county = forms.ModelChoiceField(queryset=County.objects.all(), required=False, label="County")

@@ -2,7 +2,7 @@ from psycopg2 import IntegrityError
 from django.shortcuts import render
 from django.shortcuts import redirect
 from .forms import VoterForm, FilterForm
-from .models import PollingStation, Constituency, Ward
+from .models import PollingStation, Constituency, Ward, Voter
 
 def home(request):
     return render(request, 'election/home.html')
@@ -12,13 +12,20 @@ def registration(request):
     if request.method == "POST":
         form = VoterForm(request.POST)
         if form.is_valid():
-            form.save()
-            print("form saved")
-            return redirect('voter_login')
+            email = form.cleaned_data['email']
+            if Voter.objects.filter(email=email).exists():
+                print("Views: A user with similar email already exists")
+                form.add_error('email', 'This email alredy exists')
+                user_exists = True
+            else:
+                form.save_voter()
+                print("form saved")
+                return redirect('voter_login')
     else:
         form = VoterForm()
 
     return render(request, 'election/registration.html', {'form': form})
+
 
 def voter_login(request):
     return render(request, 'election/voter_login.html')
