@@ -13,6 +13,7 @@ def polulate_data():
 
     # Nairobi Constituency
     kibra, created = Constituency.objects.get_or_create(name="Kibra", county=nairobi)
+    Kawangware, created = Constituency.objects.get_or_create(name="Kawangware", county=nairobi)
 
     # Kibra wards
     lindi, created = Ward.objects.get_or_create(name="Lindi", constituency=kibra)

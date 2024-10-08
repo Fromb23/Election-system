@@ -33,7 +33,7 @@ class FilterForm(forms.Form):
         if 'constituency' in self.data:
             try:
                 constituency_id = int(self.data.get('constituency'))
-                self.fields['ward'].queryset = Constituency.objects.filter(constituency_id=constituency_id).order_by('name')
+                self.fields['ward'].queryset = Ward.objects.filter(constituency_id=constituency_id).order_by('name')
             except (ValueError, TypeError):
                 print('Constituency not Found, pls check')
         # elif self.instance.pk:

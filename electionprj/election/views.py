@@ -2,7 +2,7 @@ from psycopg2 import IntegrityError
 from django.shortcuts import render
 from django.shortcuts import redirect
 from .forms import VoterForm, FilterForm
-from .models import PollingStation
+from .models import PollingStation, Constituency, Ward
 
 def home(request):
     return render(request, 'election/home.html')
@@ -24,27 +24,30 @@ def voter_login(request):
     return render(request, 'election/voter_login.html')
 
 def search_polling_stations(request):
-    stations = PollingStation.objects.all()
+    # stations = PollingStation.objects.all()
     form = FilterForm(request.GET or None)
 
-    # Filete based on selections
-    if request.GET:
-        if form.is_valid():
-            county = form.cleaned_data.get('county')
-            constituency = form.cleaned_data.get('constituency')
-            ward = form.cleaned_data.get('ward')
-            polling_station = form.cleaned_data.get('polling_station')
+    county = request.GET.get('county')
+    constituency = request.GET.get('constituency')
+    ward = request.GET.get('ward')
+    polling_station = request.GET.get('polling_station')
 
-            print(f"Count is: {county}, Cosnt is: {constituency}, Ward is: {ward}, PollingStation is: {polling_station}")
+    if county:
+        form.fields['constituency'].queryset = Constituency.objects.filter(county=county)
+        form.fields['county'].initial = county
+    if constituency:
+        form.fields['ward'].queryset = Ward.objects.filter(constituency=constituency)
+    if ward:
+        form.fields['polling_station'].queryset = PollingStation.objects.filter(ward=ward)
 
-            # Apply filter based on user selection
-            if county:
-                stations = stations.filter(ward__constituency__county=county)
-            if constituency:
-                stations = stations.filter(ward_constituency=constituency)
-            if ward:
-                stations = stations.filter(ward=ward)
-            if polling_station:
-                stations = stations.filter(id=polling_station.id)
+    polling_stations = PollingStation.objects.all()
+    if polling_station:
+        polling_stations = polling_stations.filter(id=polling_station)
+    elif ward:
+        polling_stations = polling_stations.filter(ward=ward)
+    elif constituency:
+        polling_stations = polling_stations.filter(ward__constituency=constituency)
+    elif county:
+        polling_stations = polling_stations.filter(ward__constituency__county=county)
 
-    return render(request, 'election/search_polling_stations.html', {'form': form, 'stations': stations})
+    return render(request, 'election/search_polling_stations.html', {'form': form, 'polling_stations': polling_stations})
