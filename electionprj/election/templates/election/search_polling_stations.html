@@ -4,6 +4,67 @@
 	</head>
 	<body>
 		<h3>Search Polling Station</h3>
+		<form method="get" action="{% url 'search_polling_stations' %}">
+    <!-- Filter by County -->
+    <div>
+        <label for="id_county">County:</label>
+        <select name="county" id="id_county" onchange="this.form.submit()">
+            <option value="">Select County</option>
+            {% for county in form.county.field.queryset %}
+                <option value="{{ county.id }}" {% if form.county.value == county.id %}selected{% endif %}>{{ county.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Filter by Constituency -->
+    <div>
+        <label for="id_constituency">Constituency:</label>
+        <select name="constituency" id="id_constituency" onchange="this.form.submit()">
+            <option value="">Select Constituency</option>
+            {% for constituency in form.constituency.field.queryset %}
+                <option value="{{ constituency.id }}" {% if form.constituency.value == constituency.id %}selected{% endif %}>{{ constituency.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Filter by Ward -->
+    <div>
+        <label for="id_ward">Ward:</label>
+        <select name="ward" id="id_ward" onchange="this.form.submit()">
+            <option value="">Select Ward</option>
+            {% for ward in form.ward.field.queryset %}
+                <option value="{{ ward.id }}" {% if form.ward.value == ward.id %}selected{% endif %}>{{ ward.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Filter by Polling Station -->
+    <div>
+        <label for="id_polling_station">Polling Station:</label>
+        <select name="polling_station" id="id_polling_station" onchange="this.form.submit()">
+            <option value="">Select Polling Station</option>
+            {% for polling_station in form.polling_station.field.queryset %}
+                <option value="{{ polling_station.id }}" {% if form.polling_station.value == polling_station.id %}selected{% endif %}>{{ polling_station.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Search Button -->
+    <div>
+        <button type="submit">Search</button>
+    </div>
+</form>
+
+<!-- Display Filtered Polling Stations -->
+<div>
+    <h2>Polling Stations</h2>
+    <ul>
+        {% for polling_station in polling_stations %}
+            <li>{{ polling_station.name }} (Ward: {{ polling_station.ward.name }}, Constituency: {{ polling_station.ward.constituency.name }}, County: {{ polling_station.ward.constituency.county.name }})</li>
+        {% endfor %}
+    </ul>
+</div>
+
 
 	</body>
 </html>

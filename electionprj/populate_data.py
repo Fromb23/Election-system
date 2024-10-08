@@ -8,29 +8,29 @@ django.setup()
 from election.models import County, Constituency, Ward, PollingStation
 
 def polulate_data():
-    nairobi = County.objects.create(name="Nairobi")
-    kajiado = County.objects.create(name="Kajiado")
+    nairobi, created = County.objects.get_or_create(name="Nairobi")
+    kajiado, created = County.objects.get_or_create(name="Kajiado")
 
     # Nairobi Constituency
-    kibra = Constituency.objects.create(name="Kibra", county=nairobi)
+    kibra, created = Constituency.objects.get_or_create(name="Kibra", county=nairobi)
 
     # Kibra wards
-    lindi = Wards.objects.create(name="Lindi", constituency=kibra)
-    makina = wards.objects.create(name="Makina", constituency=kibra)
-    highrise = Wards.objects.create(name="Highrise", constituency=kibra)
+    lindi, created = Ward.objects.get_or_create(name="Lindi", constituency=kibra)
+    makina, created = Ward.objects.get_or_create(name="Makina", constituency=kibra)
+    highrise, created = Ward.objects.get_or_create(name="Highrise", constituency=kibra)
 
     # Polling stations for Lindi 
-    PollingStation.objects.create(name="Lindi Primary", ward=lindi)
-    PollingStation.objects.create(name="Lindi Mosque", ward=lindi)
-    PollingStation.objects.create(name="ODM Center", ward=lindi)
-    PollingStation.objects.create(name="Mashimoni Primary", ward=lindi)
+    PollingStation.objects.get_or_create(name="Lindi Primary", ward=lindi)
+    PollingStation.objects.get_or_create(name="Lindi Mosque", ward=lindi)
+    PollingStation.objects.get_or_create(name="ODM Center", ward=lindi)
+    PollingStation.objects.get_or_create(name="Mashimoni Primary", ward=lindi)
 
     # Polling Station for Makina
-    PollingStation.objects.create(name="Makina Mosque", ward=makina)
-    PollingStation.objects.create(name="Makina Primary", ward=makina)
-    PollingStation.objects.create(name="Kibra High", ward=makina)
-    PollingStation.objects.create(name="Kibra DC", ward=makina)
-    PollingStation.objects.create(name="Karanja Mosque", ward=makina)
+    PollingStation.objects.get_or_create(name="Makina Mosque", ward=makina)
+    PollingStation.objects.get_or_create(name="Makina Primary", ward=makina)
+    PollingStation.objects.get_or_create(name="Kibra High", ward=makina)
+    PollingStation.objects.get_or_create(name="Kibra DC", ward=makina)
+    PollingStation.objects.get_or_create(name="Karanja Mosque", ward=makina)
 
     # PollingStation for Highrise
     

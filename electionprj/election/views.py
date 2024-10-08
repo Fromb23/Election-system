@@ -35,6 +35,8 @@ def search_polling_stations(request):
             ward = form.cleaned_data.get('ward')
             polling_station = form.cleaned_data.get('polling_station')
 
+            print(f"Count is: {county}, Cosnt is: {constituency}, Ward is: {ward}, PollingStation is: {polling_station}")
+
             # Apply filter based on user selection
             if county:
                 stations = stations.filter(ward__constituency__county=county)

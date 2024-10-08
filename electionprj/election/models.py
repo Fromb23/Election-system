@@ -34,9 +34,11 @@ class Admin(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
 
 class County(models.Model):
+    print("county model 1")
     name = models.CharField(max_length=100)
     
     def __str__(self):
+        print(f"name county: {self.name}")
         return self.name
 
 class Constituency(models.Model):
